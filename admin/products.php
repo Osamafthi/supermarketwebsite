@@ -316,7 +316,7 @@ function openEditProductModal(button) {
         imageContainer.innerHTML = `<img src="${imageSrc}" style="max-width: 200px; max-height: 200px;">`;
     }
 
-    document.getElementById("editProductModal").style.display = "block";
+    document.getElementById("editProductModal").classList.add("active");
 }
 
 function closeEditProductModal() {

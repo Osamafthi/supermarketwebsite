@@ -69,7 +69,7 @@ include '../includes/header.php';
                             <input type="number" name="quantity" value="1" min="1" max="<?php echo $product->getStockQuantity(); ?>">
                             <button class="quantity-btn plus">+</button>
                         </div>
-                        <button class="btn add-to-cart-btn" data-product-id="<?php echo $product->getId(); ?>">
+                        <button class="btn add-to-cart-btn-shop" data-product-id="<?php echo $product->getId(); ?>">
                             <i class="fas fa-shopping-cart"></i> Add to Cart
                         </button>
                     </div>

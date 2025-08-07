@@ -10,7 +10,7 @@ $admin='admin';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo isset($pageTitle) ? htmlspecialchars($pageTitle) : 'SuperMarket'; ?></title>
-    <link rel="stylesheet" href="../style.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="<?php echo BASE_PATH; ?>/includes/header.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
@@ -117,4 +117,151 @@ $admin='admin';
     }
 
   });
+
+  // Header shrinking effect for mobile devices
+document.addEventListener('DOMContentLoaded', function() {
+    const header = document.querySelector('.header');
+    let lastScrollTop = 0;
+    let scrollTimeout;
+    
+    // Check if device is mobile
+    function isMobile() {
+        return window.innerWidth <= 768;
+    }
+    
+    // Throttle scroll events for better performance
+    function throttle(func, limit) {
+        let inThrottle;
+        return function() {
+            const args = arguments;
+            const context = this;
+            if (!inThrottle) {
+                func.apply(context, args);
+                inThrottle = true;
+                setTimeout(() => inThrottle = false, limit);
+            }
+        }
+    }
+    
+    // Handle scroll events
+    function handleScroll() {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        
+        if (isMobile()) {
+            // Add shrinking effect on mobile
+            if (scrollTop > 50) {
+                header.classList.add('mobile-scrolled');
+            } else {
+                header.classList.remove('mobile-scrolled');
+            }
+        } else {
+            // Remove mobile classes on desktop
+            header.classList.remove('mobile-scrolled');
+        }
+        
+        // Add general scrolled class for all devices
+        if (scrollTop > 10) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+        
+        lastScrollTop = scrollTop;
+    }
+    
+    // Add scroll event listener with throttling
+    window.addEventListener('scroll', throttle(handleScroll, 16));
+    
+    // Handle resize events
+    window.addEventListener('resize', throttle(function() {
+        if (!isMobile()) {
+            header.classList.remove('mobile-scrolled');
+        }
+    }, 250));
+    
+    // Initialize on page load
+    handleScroll();
+    
+    // Add smooth search functionality
+    const searchBar = document.getElementById('mainSearch');
+    if (searchBar) {
+        searchBar.addEventListener('input', function(e) {
+            // Add your search logic here
+            console.log('Searching for:', e.target.value);
+        });
+        
+        // Handle search form submission
+        const searchForm = document.querySelector('.search-form');
+        if (searchForm) {
+            searchForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                // Add your search submission logic here
+                console.log('Search submitted:', searchBar.value);
+            });
+        }
+    }
+    
+    // Add cart count animation
+    const cartCount = document.querySelector('.cart-count');
+    if (cartCount) {
+        // Function to update cart count with animation
+        function updateCartCount(newCount) {
+            cartCount.style.transform = 'scale(1.3)';
+            cartCount.textContent = newCount;
+            
+            setTimeout(() => {
+                cartCount.style.transform = 'scale(1)';
+            }, 200);
+        }
+        
+        // Example usage: updateCartCount(5);
+    }
+    
+    // Add loading states for navigation links
+    const navLinks = document.querySelectorAll('.nav-link');
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            // Add loading state
+            this.style.opacity = '0.7';
+            
+            // Remove loading state after a short delay
+            setTimeout(() => {
+                this.style.opacity = '1';
+            }, 500);
+        });
+    });
+    
+    // Add keyboard navigation support
+    document.addEventListener('keydown', function(e) {
+        // Focus search bar with Ctrl/Cmd + K
+        if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+            e.preventDefault();
+            if (searchBar) {
+                searchBar.focus();
+            }
+        }
+    });
+    
+    // Add touch gesture support for mobile
+    let touchStartY = 0;
+    let touchStartTime = 0;
+    
+    if (isMobile()) {
+        document.addEventListener('touchstart', function(e) {
+            touchStartY = e.touches[0].clientY;
+            touchStartTime = Date.now();
+        });
+        
+        document.addEventListener('touchmove', function(e) {
+            const touchY = e.touches[0].clientY;
+            const deltaY = touchY - touchStartY;
+            const deltaTime = Date.now() - touchStartTime;
+            
+            // If scrolling up quickly, ensure header is visible
+            if (deltaY > 50 && deltaTime < 300) {
+                header.classList.remove('mobile-scrolled');
+            }
+        });
+    }
+});
     </script>

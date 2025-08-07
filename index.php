@@ -9,11 +9,10 @@ ini_set('display_errors', 1);
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SuperMarket - Home</title>
   <link rel="stylesheet" href="style.css?v=<?php echo time(); ?>">
+  <?php include "includes/header.php"; ?>
 </head>
 <body>
-  <header class="header">
-   <?php include "includes/header.php"; ?>
-  </header>
+
 
   <main class="container">
     <!-- Hero Section -->
@@ -22,12 +21,15 @@ ini_set('display_errors', 1);
     </section>
    
     <!-- Categories Grid -->
+
     <section class="categories">
+    
       <h2>Shop by Category</h2>
       <div class="grid grid-4" id="categoriesContainer">
         <!-- Will be loaded by AJAX -->
         <div class="loading">Loading categories...</div>
       </div>
+      
     </section>
 
     <!-- Featured Products -->
@@ -49,12 +51,7 @@ ini_set('display_errors', 1);
 </section>
   </main>
 
-  <footer class="footer">
-    <?php 
-     
-    include "includes/footer.php";
-    ?>
-  </footer>
+
 
   <script>
 
@@ -195,7 +192,7 @@ function showNotification(message, type = 'success') {
     setTimeout(() => notification.remove(), 500);
   }, 3000);
 }
-  function loadCategories() {
+function loadCategories() {
     fetch('index_php_stuff/get_categories.php')
         .then(response => {
             if (!response.ok) throw new Error('Network response was not ok');
@@ -205,7 +202,10 @@ function showNotification(message, type = 'success') {
             const container = document.getElementById('categoriesContainer');
             container.innerHTML = '';
             
-            data.forEach(category => {
+            // Get only the first 5 categories
+            const firstFiveCategories = data.slice(0, 5);
+            
+            firstFiveCategories.forEach(category => {
                 const categoryCard = document.createElement('div');
                 categoryCard.className = 'category-card';
                 
@@ -231,7 +231,6 @@ function showNotification(message, type = 'success') {
                 '<p class="error">Error loading categories. Please try again.</p>';
         });
 }
-
 function loadFeaturedProducts() {
     fetch('index_php_stuff/get_featured_products.php')
         .then(response => response.json())
@@ -448,4 +447,8 @@ function renderPagination(pagination) {
  
   </script>
 </body>
+<?php 
+     
+     include "includes/footer.php";
+     ?>
 </html>

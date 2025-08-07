@@ -11,17 +11,12 @@ include '../includes/header.php';
     <div class="search-page">
         <!-- Search Header -->
         <div class="search-header">
-            <h1>Search Results</h1>
+         
             
             <!-- Search Form -->
             <div class="search-form-container">
                 <form method="GET" action="search.php" class="search-form-page">
-                    <input type="search" 
-                           name="term" 
-                           
-                           placeholder="Search products..." 
-                           class="search-input">
-                    <button type="submit" class="search-button">Search</button>
+                   
                 </form>
             </div>
             <div id="product-results" class="products-grid"></div>

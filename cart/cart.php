@@ -14,7 +14,7 @@
 
   <main class="container">
     <section class="cart-page">
-      <h1>Your Shopping Cart</h1>
+    
       
       <!-- Cart Items -->
       <div class="cart-items" id="cartItemsContainer">

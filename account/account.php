@@ -619,7 +619,7 @@ include '../includes/header.php';
                                     <address>
                                         <?php echo htmlspecialchars($order_details['shipping_first_name'] . ' ' . $order_details['shipping_last_name']); ?><br>
                                         <?php echo htmlspecialchars($order_details['shipping_address']); ?><br>
-                                        <?php echo htmlspecialchars($order_details['shipping_city'] . ', ' . $order_details['shipping_state'] . ' ' . $order_details['shipping_zip']); ?><br>
+                                        <?php echo htmlspecialchars($order_details['shipping_city'] ); ?><br>
                                         <?php echo htmlspecialchars($order_details['shipping_phone']); ?>
                                     </address>
                                 </div>
